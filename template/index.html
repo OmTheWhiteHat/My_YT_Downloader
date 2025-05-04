@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download YouTube Video</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="root">
+        <div class="container">
+            <div class="form-section">
+                <div class="header">
+                    <div class="bar-left">
+                    </div>
+                    <h1>Download YouTube Video</h1>
+                    <div class="bar-right">
+                    </div>
+                </div>
+                <form id="input-form" method="POST" action="/">
+                <div class="form-group">
+                    <input type="text" name="url" id="url" placeholder="Enter YouTube URL" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="format">Select Format:</label>
+                    <select name="format" id="format">
+                        <option value="NULL">SELECT OPTION</option>
+                        <option value="mp4">MP4 🎬</option>
+                        <option value="mp3">MP3 🎧</option>
+                    </select>
+                </div>
+
+                <div id="resolution-section" class="form-group" style="display:none;">
+                    <label for="resolution">Choose Resolution:</label>
+                    <select name="resolution" id="resolution-box">
+                        <!-- Filled by JS -->
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" id="submit-button"><i class='bx bxs-send'></i> SUBMIT</button>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="clear-button"><i class='bx bxs-trash-alt' ></i> CLEAR</button>
+                </div>
+                
+            </form>
+
+        </div>
+
+        <div class="result-section">
+            <div class="header">
+                <h1>The Preview</h1>
+                <span class="underline"></span>
+            </div>
+            {% if title %}
+                <div class="video-title">
+                    <h3><i class='bx bxl-flutter' ></i>Title:</h3>
+                    <p>{{ title }}</p>
+                </div>
+            {% endif %}
+        
+            {% if thumbnail_url %}
+                <div class="thumbnail">
+                    <h3><i class='bx bxs-notification'></i>Thumbnail:</h3>
+                    <img src="{{ thumbnail_url }}" alt="Thumbnail">
+                </div>
+            {% endif %}
+    
+            {% if title %}
+            <form action="/download" id="download-form" method="POST">
+                <input type="hidden" name="url" value="{{ url }}">
+                <input type="hidden" name="format" value="{{ format_choice }}">
+                <input type="hidden" name="title" value="{{ title }}">
+                {% if format_choice == 'mp4' and resolution %}
+                    <input type="hidden" name="resolution" value="{{ resolution }}">
+                {% endif %}
+                <button type="submit" id="download">
+                    <div class="dots_border"></div>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    class="sparkle"
+  >
+    <path
+      class="path"
+      stroke-linejoin="round"
+      stroke-linecap="round"
+      stroke="black"
+      fill="black"
+      d="M14.187 8.096L15 5.25L15.813 8.096C16.0231 8.83114 16.4171 9.50062 16.9577 10.0413C17.4984 10.5819 18.1679 10.9759 18.903 11.186L21.75 12L18.904 12.813C18.1689 13.0231 17.4994 13.4171 16.9587 13.9577C16.4181 14.4984 16.0241 15.1679 15.814 15.903L15 18.75L14.187 15.904C13.9769 15.1689 13.5829 14.4994 13.0423 13.9587C12.5016 13.4181 11.8321 13.0241 11.097 12.814L8.25 12L11.096 11.187C11.8311 10.9769 12.5006 10.5829 13.0413 10.0423C13.5819 9.50162 13.9759 8.83214 14.186 8.097L14.187 8.096Z"
+    ></path>
+    <path
+      class="path"
+      stroke-linejoin="round"
+      stroke-linecap="round"
+      stroke="black"
+      fill="black"
+      d="M6 14.25L5.741 15.285C5.59267 15.8785 5.28579 16.4206 4.85319 16.8532C4.42059 17.2858 3.87853 17.5927 3.285 17.741L2.25 18L3.285 18.259C3.87853 18.4073 4.42059 18.7142 4.85319 19.1468C5.28579 19.5794 5.59267 20.1215 5.741 20.715L6 21.75L6.259 20.715C6.40725 20.1216 6.71398 19.5796 7.14639 19.147C7.5788 18.7144 8.12065 18.4075 8.714 18.259L9.75 18L8.714 17.741C8.12065 17.5925 7.5788 17.2856 7.14639 16.853C6.71398 16.4204 6.40725 15.8784 6.259 15.285L6 14.25Z"
+    ></path>
+    <path
+      class="path"
+      stroke-linejoin="round"
+      stroke-linecap="round"
+      stroke="black"
+      fill="black"
+      d="M6.5 4L6.303 4.5915C6.24777 4.75718 6.15472 4.90774 6.03123 5.03123C5.90774 5.15472 5.75718 5.24777 5.5915 5.303L5 5.5L5.5915 5.697C5.75718 5.75223 5.90774 5.84528 6.03123 5.96877C6.15472 6.09226 6.24777 6.24282 6.303 6.4085L6.5 7L6.697 6.4085C6.75223 6.24282 6.84528 6.09226 6.96877 5.96877C7.09226 5.84528 7.24282 5.75223 7.4085 5.697L8 5.5L7.4085 5.303C7.24282 5.24777 7.09226 5.15472 6.96877 5.03123C6.84528 4.90774 6.75223 4.75718 6.697 4.5915L6.5 4Z"
+    ></path>
+  </svg>
+  <span class="text_button">Download</span>
+                </button>
+            </form>
+            {% endif %}
+        
+        </div>
+    </div>
+
+<script>
+    async function fetchResolutions() {
+    const url = document.getElementById('url').value;
+    const format = document.getElementById('format').value;
+    const resSelect = document.getElementById('resolution-box');
+
+    // Only fetch resolutions for mp4 format and a non-empty URL
+    if (format === 'mp4' && url) {
+        try {
+            // Clear existing options before showing loading message
+            resSelect.innerHTML = '<option>Loading...</option>';
+
+            const response = await fetch('/resolutions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ url: url })
+            });
+
+            const data = await response.json();
+
+            if (data.resolutions) {
+                // Clear the "Loading..." message if resolutions are found
+                resSelect.innerHTML = '';
+                data.resolutions.forEach(res => {
+                    const opt = document.createElement('option');
+                    opt.value = res;
+                    opt.text = res;
+                    resSelect.appendChild(opt);
+                });
+                document.getElementById('resolution-section').style.display = 'block';
+            } else if (data.error) {
+                alert("Error: " + data.error);
+                resSelect.innerHTML = ''; // Clear the dropdown if error occurs
+                document.getElementById('resolution-section').style.display = 'none';
+            }
+        } catch (err) {
+            alert("Failed to fetch resolutions: " + err);
+        }
+    } else {
+        // Clear the resolution select options if no valid URL or format
+        resSelect.innerHTML = '';
+        document.getElementById('resolution-section').style.display = 'none';
+    }
+}
+
+// Trigger resolution fetch when format changes
+document.getElementById('format').addEventListener('change', () => {
+    fetchResolutions(); // Calls the fetch function when format changes
+});
+
+// Trigger resolution fetch when the URL input changes
+document.getElementById('url').addEventListener('input', () => {
+    const format = document.getElementById('format').value;
+    if (format === 'mp4') {
+        fetchResolutions(); // Fetch resolutions when URL input changes
+    }
+});
+
+// Handle metadata form submission
+document.getElementById('input-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    try {
+        const response = await fetch('/', {
+            method: 'POST',
+            body: formData
+        });
+
+        const html = await response.text();
+
+        const tempDoc = new DOMParser().parseFromString(html, 'text/html');
+        const newResultSection = tempDoc.querySelector('.result-section');
+        const existingResultSection = document.querySelector('.result-section');
+
+        if (newResultSection && existingResultSection) {
+            existingResultSection.innerHTML = newResultSection.innerHTML;
+        } else {
+            console.error("Result section not found in response.");
+        }
+    } catch (err) {
+        alert("Error submitting form: " + err);
+    }
+});
+
+// Clear button functionality
+document.getElementById('clear-button').addEventListener('click', () => {
+    document.getElementById('input-form').reset();
+    document.getElementById('resolution-box').innerHTML = '';
+    document.getElementById('resolution-section').style.display = 'none';
+    document.querySelector('.result-section').innerHTML = ''; // optional: clears the result section
+});
+
+    </script>
+</body>
+</html>
