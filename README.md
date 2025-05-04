@@ -12,7 +12,7 @@ A simple and efficient YouTube downloader that allows users to download videos i
    - [Install Dependencies](#install-dependencies-)
 3. [Running the Application](#running-the-application-)
 4. [Features](#features-)
-5. [Troubleshooting](#troubleshoot)
+5. [Troubleshooting](#troubleshooting-)
 6. [Contributing](#contributing-)
 7. [License](#license-)
 8. [Acknowledgements](#acknowledgements-)
@@ -121,7 +121,7 @@ This will start the application, and you can interact with the UI to download Yo
 
 ---
 
-## Troubleshoot 🌟
+## Troubleshooting 🌟
 
 If you encounter issues while running the application, here are some common problems and solutions:
 
